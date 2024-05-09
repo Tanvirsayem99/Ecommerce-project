@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.modal-box{
+    max-width: fit-content !important;
+}
+ul {
+    list-style-type: circle;
+  }
