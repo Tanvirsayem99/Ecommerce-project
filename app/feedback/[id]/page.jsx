@@ -9,6 +9,8 @@ const page = ({params}) => {
     const [rating,setRating] = useState(null)
     const [hover,setHover] = useState(null)
     const [item,setItem] = useState([])
+    const [comment,setComment] = useState('')
+    
    
     
     
@@ -43,18 +45,27 @@ const page = ({params}) => {
              buyer: finalBuyer
            })
          })
+        fetch('http://localhost:3000/api/comment/'+params?.id,{
+           method: "POST",
+           headers:{
+             "Content-Type": "application/json",
+           },
+           body:JSON.stringify({
+             comment: comment,
+             rating:rating,
+             buyer: finalBuyer,
+             userEmail:session?.user?.email
+           })
+         })
         fetch('http://localhost:3000/api/userReview/'+params?.id,{
            method: "DELETE",
-          //  headers:{
-          //    "Content-Type": "application/json",
-          //  },
          })
        
        
 
        
    }
-    
+
     const {
         authorName,
         productName,
@@ -74,7 +85,7 @@ const page = ({params}) => {
       
     return (
         <div className="w-11/12 mx-auto bg-white grid">
-            <div className="flex">
+            <div className="flex justify-center">
             {
                 [...Array(5)].map((star, index)=>{
                     const currentRating = index +1 
@@ -89,7 +100,12 @@ const page = ({params}) => {
                 })
             }
             </div>
-            <button className=" bg-pink-600 py-2 px-3 w-48 text-white rounded-md" onClick={()=>handleSubmit(item._id)}>submit</button>   
+            <p className="text-blue-600 text-center">{rating == 1 && 'poor'}{rating == 2 && 'average'}{rating == 3 && 'good'}{rating == 4 && 'very good'}{rating == 5 && 'execellent'}</p>
+            <form action="" className="grid justify-center items-center">
+              <span className="text-center py-2">Type your though</span>
+              <input type="text" name="" id="" onChange={(e)=>setComment(e.target.value)} className="w-96  mv-2outline-none py-2 bg-slate-200 rounded-lg"/>
+            </form>
+            <button className="mx-auto bg-pink-600 py-2 px-3 w-48 text-white rounded-md" onClick={()=>handleSubmit(item._id)}>submit</button>   
         </div>
     );
 };

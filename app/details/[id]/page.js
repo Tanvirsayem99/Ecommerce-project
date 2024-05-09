@@ -7,10 +7,16 @@ import Link from "next/link";
 const page = ({ params }) => {
   let [nums, setNums] = useState(1);
   const [singleData, setSingleData] = useState([]);
+  const [allComment,setAllComment] = useState([])
   useEffect(() => {
     fetch("http://localhost:3000/api/productDetails/" + params.id)
       .then((res) => res.json())
       .then((data) => setSingleData(data.product));
+
+
+      fetch("http://localhost:3000/api/findComment/" + params.id)
+      .then((res) => res.json())
+      .then((data) => setAllComment(data.comment));  
   }, [params]);
 
     const { authorName,
@@ -27,7 +33,7 @@ const page = ({ params }) => {
       description,
       authorImage, } = singleData;
  
-  
+  console.log(allComment)
   return (
    
     <div className="w-11/12 mx-auto bg-white flex gap-10">
